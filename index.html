@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Årøsí Jàhæñ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #e6f0ff 0%, #c9e0ff 100%);
+            color: #0c428a;
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(28, 91, 166, 0.2);
+            position: relative;
+            padding: 20px;
+            width: 100%;
+        }
+        
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .star {
+            position: absolute;
+            color: rgba(105, 180, 255, 0.6);
+            font-size: 20px;
+            animation: float 6s ease-in infinite;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        header {
+            text-align: center;
+            padding: 20px 10px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .name-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 15px 0;
+            gap: 5px;
+        }
+        
+        .name-part {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .name-letter {
+            display: inline-block;
+            font-size: 2.8rem;
+            font-weight: bold;
+            margin: 0 2px;
+            background: linear-gradient(45deg, #4d94ff, #1a75ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: bounce 1.5s ease infinite alternate;
+        }
+        
+        @media (max-width: 480px) {
+            .name-letter {
+                font-size: 2.2rem;
+            }
+            
+            .name-part {
+                margin-bottom: 5px;
+            }
+        }
+        
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-10px); }
+        }
+        
+        .name-letter:nth-child(2) { animation-delay: 0.1s; }
+        .name-letter:nth-child(3) { animation-delay: 0.2s; }
+        .name-letter:nth-child(4) { animation-delay: 0.3s; }
+        .name-letter:nth-child(5) { animation-delay: 0.4s; }
+        .name-letter:nth-child(6) { animation-delay: 0.5s; }
+        .name-letter:nth-child(7) { animation-delay: 0.6s; }
+        .name-letter:nth-child(8) { animation-delay: 0.7s; }
+        .name-letter:nth-child(9) { animation-delay: 0.8s; }
+        .name-letter:nth-child(10) { animation-delay: 0.9s; }
+        .name-letter:nth-child(11) { animation-delay: 1.0s; }
+        .name-letter:nth-child(12) { animation-delay: 1.1s; }
+        .name-letter:nth-child(13) { animation-delay: 1.2s; }
+        
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid #66b2ff;
+            margin: 0 auto 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(28, 91, 166, 0.3);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(105, 180, 255, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(105, 180, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(105, 180, 255, 0); }
+        }
+        
+        .profile-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .social-link {
+            display: inline-block;
+            background: linear-gradient(45deg, #4d94ff, #1a75ff);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 50px;
+            text-decoration: none;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(28, 91, 166, 0.3);
+            font-size: 0.9rem;
+        }
+        
+        .social-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(28, 91, 166, 0.4);
+        }
+        
+        .content {
+            padding: 15px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .shayari-container {
+            background: linear-gradient(135deg, #e6f2ff 0%, #cce6ff 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(28, 91, 166, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .shayari-container::before {
+            content: """;
+            font-size: 100px;
+            position: absolute;
+            top: -30px;
+            left: 10px;
+            color: rgba(105, 180, 255, 0.2);
+            font-family: Arial;
+            z-index: 1;
+        }
+        
+        .shayari-container::after {
+            content: """;
+            font-size: 100px;
+            position: absolute;
+            bottom: -50px;
+            right: 10px;
+            color: rgba(105, 180, 255, 0.2);
+            font-family: Arial;
+            transform: rotate(180deg);
+            z-index: 1;
+        }
+        
+        .shayari-text {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            color: #004d99;
+            font-style: italic;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .shayari-line {
+            margin: 15px 0;
+            display: block;
+        }
+        
+        .shayari-word {
+            display: inline-block;
+            white-space: nowrap;
+        }
+        
+        .shayari-char {
+            display: inline-block;
+            position: relative;
+            font-weight: bold;
+            animation: colorChange 3s infinite alternate;
+        }
+        
+        @keyframes colorChange {
+            0% { color: #1a75ff; text-shadow: 0 0 5px #1a75ff; }
+            20% { color: #3385ff; text-shadow: 0 0 5px #3385ff; }
+            40% { color: #4d94ff; text-shadow: 0 0 5px #4d94ff; }
+            60% { color: #66a3ff; text-shadow: 0 0 5px #66a3ff; }
+            80% { color: #80b3ff; text-shadow: 0 0 5px #80b3ff; }
+            100% { color: #99c2ff; text-shadow: 0 0 5px #99c2ff; }
+        }
+        
+        .shayari-char:nth-child(2n) {
+            animation-delay: 0.5s;
+        }
+        
+        .shayari-char:nth-child(3n) {
+            animation-delay: 1s;
+        }
+        
+        .shayari-char:nth-child(5n) {
+            animation-delay: 1.5s;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 15px;
+            color: #0066cc;
+            font-weight: bold;
+            position: relative;
+            z-index: 2;
+            font-size: 0.9rem;
+        }
+        
+        .heartbeat {
+            animation: heartbeat 1.5s ease-in-out infinite both;
+            color: #1a75ff;
+            display: inline-block;
+            margin: 0 5px;
+        }
+        
+        @keyframes heartbeat {
+            from {
+                transform: scale(1);
+                transform-origin: center center;
+                animation-timing-function: ease-out;
+            }
+            10% {
+                transform: scale(0.91);
+                animation-timing-function: ease-in;
+            }
+            17% {
+                transform: scale(0.98);
+                animation-timing-function: ease-out;
+            }
+            33% {
+                transform: scale(0.87);
+                animation-timing-function: ease-in;
+            }
+            45% {
+                transform: scale(1);
+                animation-timing-function: ease-out;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .shayari-text {
+                font-size: 1.1rem;
+            }
+            
+            .shayari-container {
+                padding: 20px;
+            }
+            
+            .shayari-container::before,
+            .shayari-container::after {
+                font-size: 80px;
+            }
+            
+            .shayari-container::before {
+                top: -20px;
+            }
+            
+            .shayari-container::after {
+                bottom: -40px;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            .name-letter {
+                font-size: 1.8rem;
+            }
+            
+            .shayari-text {
+                font-size: 1rem;
+            }
+            
+            .shayari-container {
+                padding: 15px;
+            }
+            
+            .shayari-container::before,
+            .shayari-container::after {
+                font-size: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="stars" id="stars"></div>
+        
+        <header>
+            <div class="profile-img">
+                <img src="https://friend-4ever.github.io/Arosi/r.png" alt="Årøsí Jàhæñ">
+            </div>
+            
+            <div class="name-container">
+                <div class="name-part">
+                    <span class="name-letter">Å</span>
+                    <span class="name-letter">r</span>
+                    <span class="name-letter">ø</span>
+                    <span class="name-letter">s</span>
+                    <span class="name-letter">í</span>
+                </div>
+                <div class="name-part">
+                    <span class="name-letter">J</span>
+                    <span class="name-letter">à</span>
+                    <span class="name-letter">h</span>
+                    <span class="name-letter">æ</span>
+                    <span class="name-letter">ñ</span>
+                </div>
+            </div>
+            
+            <a href="https://www.facebook.com/share/1FETvEdD3o/?mibextid=wwXIfr" class="social-link" target="_blank">
+                <i class="fab fa-facebook"></i> Visit Facebook Profile
+            </a>
+        </header>
+        
+        <div class="content">
+            <div class="shayari-container">
+                <div class="shayari-text" id="shayariText">
+                    <!-- Shayari will be inserted by JavaScript -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Created with <span class="heartbeat"><i class="fas fa-heart"></i></span> by Your Facebook Friend</p>
+        </div>
+    </div>
+
+    <script>
+        // Create floating stars
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = 25;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.innerHTML = '<i class="fas fa-star"></i>';
+                star.classList.add('star');
+                
+                // Random position
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                
+                // Random size
+                const size = Math.random() * 15 + 10;
+                star.style.fontSize = size + 'px';
+                
+                // Random animation delay
+                star.style.animationDelay = Math.random() * 5 + 's';
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // Create animated shayari text
+        function createShayari() {
+            const shayariText = document.getElementById('shayariText');
+            const shayari = [
+                "Khoobsurat sa ek lamha, kahaani ban gaya,",
+                "Na jaane kaise Årøsí Jàhæñ meri zindagi ki nishaani ban gaya,",
+                "Chaand si roshni lekar Årøsí Jàhæñ meri duniya mein aayi,",
+                "Uski muskaan sitaron ki mehfil sa ban gayi,",
+                "Aur yunhi, ek rishta bana jo sirf sapnon mein hi rahega…",
+                "Årøsí Jàhæñ, tumne reply bhi kiya—iske liye shukriya.",
+                "Main bas itna kehna chahta hoon:",
+                "Main tumhara ek Facebook friend hoon",
+                "aur tumhe kaafi dinõ se follow karta aa raha hoon.",
+                "Dil se dua hai ki tum hamesha khush raho.",
+                "Agar kabhi meri koi baat buri lagi ho,",
+                "toh mujhe maaf kar dena…",
+                "Vaise, tum waaqai bahut acche ho. 🌹"
+            ];
+            
+            shayari.forEach(line => {
+                const lineElem = document.createElement('div');
+                lineElem.classList.add('shayari-line');
+                
+                const words = line.split(' ');
+                words.forEach(word => {
+                    const wordElem = document.createElement('span');
+                    wordElem.classList.add('shayari-word');
+                    
+                    // Add each character with animation
+                    for (let i = 0; i < word.length; i++) {
+                        const charElem = document.createElement('span');
+                        charElem.classList.add('shayari-char');
+                        charElem.textContent = word[i];
+                        wordElem.appendChild(charElem);
+                    }
+                    
+                    lineElem.appendChild(wordElem);
+                    // Add space after word
+                    lineElem.appendChild(document.createTextNode(' '));
+                });
+                
+                shayariText.appendChild(lineElem);
+            });
+        }
+        
+        // Initialize everything when page loads
+        window.onload = function() {
+            createStars();
+            createShayari();
+        };
+    </script>
+</body>
+</html>
