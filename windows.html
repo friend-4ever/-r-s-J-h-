@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows Pc Software</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+        .form-group {
+            margin-bottom: 30px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }   
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-left: -11px; /* Ye line input box ko left ki taraf shift karti hai */
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .selected-software {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #e7f3fe;
+            border: 1px solid #b3d4fc;
+            border-radius: 4px;
+        }
+        .software-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+        }
+        .select-all-button {
+            background-color: #007BFF;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Editing Paid Software <span style="color: red;">Low Price</span> (Lifetime)</h1>
+
+    <form id="softwareForm">
+        <div class="form-group">
+            <label for="searchInput">Search for Software</label>
+            <input type="text" id="searchInput" placeholder="Search for software..." oninput="filterSoftware()">
+            <div id="softwareDropdown" class="dropdown"></div>
+        </div>
+
+        <div class="form-group">
+            <button type="button" class="select-all-button" onclick="selectAllSoftware()">Buy All Software</button>
+        </div>
+
+        <div class="form-group">
+            <label for="selectedSoftwarePC">Software (PC)</label>
+            <select id="selectedSoftwarePC" multiple required onchange="showSelectedSoftware()">
+                <option value="Adobe Premiere Pro">Adobe Premiere Pro</option>
+                <option value="Adobe Photoshop">Adobe Photoshop</option>
+                <option value="Adobe After Effects">Adobe After Effects</option>
+                <option value="Wondershare Filmora">Wondershare Filmora</option>
+                <option value="Adobe Lightroom">Adobe Lightroom</option>
+                <option value="Adobe InDesign">Adobe InDesign</option>
+                <option value="Adobe Audition">Adobe Audition</option>
+                <option value="Media Encoder">Media Encoder</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <button id="downloadButton" onclick="downloadSoftware(event)">Download</button>
+        </div>
+
+        <div class="selected-software" id="selectedSoftwareDisplay"></div>
+
+        <div class="form-group">
+            <button type="submit">Gate Password</button>
+        </div>
+    </form>
+
+    <script>
+        const softwareLinks = {
+            "Adobe Premiere Pro": "https://drive.google.com/file/d/1LZpvlTMHrgz_Hq_dGH8-pZbdZ9oQCBGW/view?usp=drive_link",
+            "Adobe Photoshop": "https://drive.google.com/file/d/11gGph0hc6Kvrm4gCPis3D-XVWXK1m5rg/view?usp=drive_link",
+            "Adobe After Effects": "https://drive.google.com/file/d/1YwlonAytptofKy_ZLUQSxz4aex4NSWeN/view?usp=drive_link",
+            "Wondershare Filmora": "https://drive.google.com/file/d/1WjzfgAb44AISjKCgd1Ch8tI1zgGH0hd7/view?usp=drive_link",
+            "Adobe Lightroom": "https://drive.google.com/file/d/1Z_zyI-fYPaEf16iwkyYW3T-jt-MdnBd3/view?usp=drive_link",
+            "Adobe InDesign": "https://drive.google.com/file/d/1PQEs4SGcCCMG1a7M7qDrGyI_K8ZzLV4I/view?usp=drive_link",
+            "Adobe Audition": "https://drive.google.com/file/d/1UOObIvdNnjlDmqv18evqYNPbr4_d6KCB/view?usp=drive_link",
+            "Media Encoder": "https://drive.google.com/file/d/1MZ-XZk3w6BR_hcCF3MAawXj9kttKc2hV/view?usp=drive_link"
+        };
+
+        const softwarePrices = {
+            "Adobe Premiere Pro": "Rs. 99",
+            "Adobe Photoshop": "Rs. 90",
+            "Adobe After Effects": "Rs. 97",
+            "Wondershare Filmora": "Rs. 79",
+            "Adobe Lightroom": "Rs. 37",
+            "Adobe InDesign": "Rs. 29",
+            "Adobe Audition": "Rs. 49",
+            "Media Encoder": "Rs. 60"
+        };
+
+        const searchInput = document.getElementById('searchInput');
+        const dropdown = document.getElementById('softwareDropdown');
+        const selectedSoftwarePC = document.getElementById('selectedSoftwarePC');
+        const selectedSoftwareDisplay = document.getElementById('selectedSoftwareDisplay');
+
+        function filterSoftware() {
+            const query = searchInput.value.toLowerCase();
+            dropdown.innerHTML = '';
+            if (query) {
+                const filteredSoftware = Object.keys(softwareLinks).filter(software => software.toLowerCase().includes(query));
+                if (filteredSoftware.length > 0) {
+                    dropdown.style.display = 'block';
+                    filteredSoftware.forEach(software => {
+                        const div = document.createElement('div');
+                        div.textContent = software;
+                        div.onclick = () => selectSoftware(software);
+                        dropdown.appendChild(div);
+                    });
+                } else {
+                    dropdown.style.display = 'none';
+                }
+            } else {
+                dropdown.style.display = 'none';
+            }
+        }
+
+        function selectSoftware(software) {
+            const option = Array.from(selectedSoftwarePC.options).find(opt => opt.value === software);
+            if (option) {
+                option.selected = !option.selected; // Toggle selection
+            }
+            showSelectedSoftware(); // Update selected software display
+        }
+
+        function selectAllSoftware() {
+            for (let option of selectedSoftwarePC.options) {
+                option.selected = true; // Select all software
+            }
+            showSelectedSoftware(); // Update display
+        }
+
+        function showSelectedSoftware() {
+            const selectedOptions = Array.from(selectedSoftwarePC.selectedOptions);
+            selectedSoftwareDisplay.innerHTML = ''; // Clear previous display
+            if (selectedOptions.length === selectedSoftwarePC.options.length) {
+                // Show total price and discount if all software are selected
+                const div = document.createElement('div');
+                div.className = 'software-item';
+                div.innerText = `Total Price:₉₉+₉₀+₉₇+₇₉+₃₇+₂₉+₄₉+₆₀=𝟓𝟒𝟎 
+                \n After Discount: Rs. 𝟮𝟵𝟵.only for you`; // Show total price with discount
+                selectedSoftwareDisplay.appendChild(div);
+            } else {
+                selectedOptions.forEach(option => {
+                    const div = document.createElement('div');
+                    div.className = 'software-item';
+                    div.innerText = `${option.value} (${softwarePrices[option.value]})`; // Display price in brackets
+                    selectedSoftwareDisplay.appendChild(div);
+                });
+            }
+        }
+
+        function downloadSoftware(event) {
+            event.preventDefault(); // Prevent default button action
+            const selectedOptions = Array.from(selectedSoftwarePC.selectedOptions);
+            if (selectedOptions.length > 0) {
+                const software = selectedOptions[0].value; // Get the first selected software
+                const link = softwareLinks[software]; // Get the corresponding link
+                if (link) {
+                    window.open(link, '_blank'); // Open in a new tab
+                }
+            }
+        }
+
+        // Form submit handling
+document.getElementById('softwareForm').onsubmit = function(event) {
+    event.preventDefault();
+    const selectedOptions = Array.from(document.getElementById('selectedSoftwarePC').selectedOptions);
+    
+    // Redirect to the provided YouTube link when "Adobe Premiere Pro" is selected
+    if (selectedOptions.length === 1 && selectedOptions[0].value === "Adobe Premiere Pro") {
+        window.location.href = "https://ntunlockcheckpointpanel.in/pay/software/premierepro.php";
+    } 
+    // Redirect to the provided YouTube link when "Adobe Photoshop" is selected
+    else if (selectedOptions.length === 1 && selectedOptions[0].value === "Adobe Photoshop") {
+        window.location.href = "https://ntunlockcheckpointpanel.in/pay/software/photoshop.php";
+    } 
+    // Redirect to the provided YouTube link when "Adobe After Effects" is selected
+    else if (selectedOptions.length === 1 && selectedOptions[0].value === "Adobe After Effects") {
+        window.location.href = "https://ntunlockcheckpointpanel.in/pay/software/aftereffects.php";
+    }
+    // Redirect to the provided YouTube link when "Wondershare Filmora" is selected
+    else if (selectedOptions.length === 1 && selectedOptions[0].value === "Wondershare Filmora") {
+        window.location.href = "https://ntunlockcheckpointpanel.in/pay/software/filmora.php";
+    }
+    // Redirect to the provided YouTube link when "Adobe Lightroom" is selected
+    else if (selectedOptions.length === 1 && selectedOptions[0].value === "Adobe Lightroom") {
+        window.location.href = "https://ntunlockcheckpointpanel.in/pay/software/lightroom.php";
+    }
+    // Redirect to the provided YouTube link when "Adobe InDesign" is selected
+    else if (selectedOptions.length === 1 && selectedOptions[0].value === "Adobe InDesign") {
+        window.location.href = "https://ntunlockcheckpointpanel.in/pay/software/indesign.php";
+    }
+    // Redirect to the provided YouTube link when "Adobe Audition" is selected
+    else if (selectedOptions.length === 1 && selectedOptions[0].value === "Adobe Audition") {
+        window.location.href = "https://ntunlockcheckpointpanel.in/pay/software/audition.php";
+    }
+    // Redirect to the provided YouTube link when "Media Encoder" is selected
+    else if (selectedOptions.length === 1 && selectedOptions[0].value === "Media Encoder") {
+        window.location.href = "https://ntunlockcheckpointpanel.in/pay/software/encoder.php";
+    }
+    // Redirect if all software is selected
+    else if (selectedOptions.length === selectedSoftwarePC.options.length) {
+        window.location.href = "https://ntunlockcheckpointpanel.in/pay/software/all.php";
+    } 
+    // Alert if conditions are not met
+    else {
+        alert('Ek sat me ek hi Software ka password le sakte ho, Nhi to All Software ka password lena parega.');
+            }
+        };
+    </script>
+</body>
+</html>
